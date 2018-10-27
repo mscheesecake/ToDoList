@@ -1,27 +1,25 @@
-document.getElementById("app").innerHTML = `
+const $taskInput = document.getElementById("task");
+const $todoList = document.getElementById("list");
 
-<div>
-
-</div>
-`;
+//listeners
+document.getElementById("add").addEventListener("click", addTask);
+$todoList.addEventListener("click", removeTask);
 
 //create new task
-document.getElementById("add").addEventListener("click", addTask);
-
 function addTask() {
-  const task = document.getElementById("task").value;
-  const ul = document.getElementById("list");
   const li = document.createElement("li");
-  li.appendChild(document.createTextNode(task));
-  const removeBtn = document.createElement("BUTTON");
-  removeBtn.className = "delete-item";
-  const txt = document.createTextNode("DONE");
-  removeBtn.appendChild(txt);
+  li.textContent = $taskInput.value;
+  const removeBtn = document.createElement("button");
+  removeBtn.classList.add("delete-item");
+  removeBtn.textContent = "Remove";
   li.appendChild(removeBtn);
-  ul.appendChild(li);
-  document.getElementById("task").value = "";
+  $todoList.appendChild(li);
+  $taskInput.value = "";
 }
 
-document.getElementById("list").addEventListener("click", removeTask);
-function removeTask(e) {}
 //remove task
+function removeTask(e) {
+  if (e.target.classList.contains("delete-item")) {
+    e.target.parentElement.remove();
+  }
+}
