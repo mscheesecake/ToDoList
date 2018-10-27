@@ -1,25 +1,37 @@
 const $taskInput = document.getElementById("task");
 const $todoList = document.getElementById("list");
+const $addButton = document.getElementById("add");
 
 //listeners
-document.getElementById("add").addEventListener("click", addTask);
+$addButton.addEventListener("click", addTask);
 $todoList.addEventListener("click", removeTask);
+$taskInput.addEventListener("keydown", addWithEnter);
 
 //create new task
 function addTask() {
-  const li = document.createElement("li");
-  li.textContent = $taskInput.value;
-  const removeBtn = document.createElement("button");
-  removeBtn.classList.add("delete-item");
-  removeBtn.textContent = "Remove";
-  li.appendChild(removeBtn);
-  $todoList.appendChild(li);
-  $taskInput.value = "";
+  if ($taskInput.value !== "") {
+    const $taskElement = document.createElement("li");
+    $taskElement.textContent = $taskInput.value;
+    const $removeBtn = document.createElement("button");
+    $removeBtn.classList.add("delete-item");
+    $removeBtn.textContent = "Remove";
+    $taskElement.appendChild($removeBtn);
+    $todoList.appendChild($taskElement);
+    $taskInput.value = "";
+  }
+}
+
+//add new task by pressing Enter
+function addWithEnter(event) {
+  if (event.key === "Enter") {
+    addTask();
+  }
 }
 
 //remove task
-function removeTask(e) {
-  if (e.target.classList.contains("delete-item")) {
-    e.target.parentElement.remove();
+function removeTask(event) {
+  const $clickedElement = event.target;
+  if ($clickedElement.classList.contains("delete-item")) {
+    $clickedElement.parentElement.remove();
   }
 }
